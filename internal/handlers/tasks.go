@@ -87,26 +87,6 @@ func GetAllTasksHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// func UpdateTaskHandler(w http.ResponseWriter, r *http.Request) {
-// 	if r.Method != http.MethodPut {
-// 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-// 		return
-// 	}
-
-// 	var task models.Task
-// 	if err := json.NewDecoder(r.Body).Decode(&task); err != nil {
-// 		http.Error(w, "Invalid request body", http.StatusBadRequest)
-// 		return
-// 	}
-
-// 	if err := storage.UpdateTask(task); err != nil {
-// 		http.Error(w, err.Error(), http.StatusBadRequest)
-// 	}
-
-// 	w.WriteHeader(http.StatusOK)
-// 	json.NewEncoder(w).Encode(map[string]string{"status": "updated"})
-// }
-
 func UpdateTaskHandler(w http.ResponseWriter, r *http.Request, id int) {
 	var updateData struct {
 		Title       *string `json:"title"`
@@ -149,13 +129,6 @@ func DeleteTaskHandler(w http.ResponseWriter, r *http.Request, id int) {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
-
-	// idStr := r.URL.Query().Get("id")
-	// id, err := strconv.Atoi(idStr)
-	// if err != nil {
-	// 	http.Error(w, "Invalid task ID", http.StatusBadRequest)
-	// 	return
-	// }
 
 	if err := storage.DeleteTask(id); err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
